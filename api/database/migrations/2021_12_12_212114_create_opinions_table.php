@@ -17,7 +17,7 @@ class CreateOpinionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('site_id');
-            $table->string('score');
+            $table->integer('score');
             $table->string('comment');
             $table->foreign('user_id')->references('id')
                 ->on('users')
