@@ -29,9 +29,9 @@ class AuthController extends Controller
 
         $response = new Response();
         try {
-            $credentials = $request->only(['email', 'password']);
+            $credentials = $request->only(['username', 'password']);
             $validation  = Validator::make($credentials, [
-                'email'    => 'required|regex:/^.+@.+$/i',
+                'username' => 'required',
                 'password' => 'required',
             ]);
 
