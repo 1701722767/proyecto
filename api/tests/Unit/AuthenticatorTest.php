@@ -27,11 +27,11 @@ class AuthenticatorTest extends TestCase
         $response = $controller->login($request);
         $this->assertEquals([
             "error"   => true,
-            "message" => "El campo correo es requerido.",
+            "message" => "El campo usuario es requerido.",
             "data"    => null,
         ], $response);
 
-        $request->merge(['email' => 'juacagiri@gmail.com']);
+        $request->merge(['username' => 'juacagiri']);
         $response = $controller->login($request);
         $this->assertEquals([
             "error"   => true,
@@ -53,7 +53,7 @@ class AuthenticatorTest extends TestCase
         $request    = new Request();
         $controller = new ControllersAuthController();
 
-        $request->merge(['email' => 'juacagiri@gmail.com', 'password' => "password"]);
+        $request->merge(['username' => 'juacagiri@gmail.com', 'password' => "password"]);
 
         $response = $controller->login($request);
 
@@ -127,7 +127,7 @@ class AuthenticatorTest extends TestCase
 
         $userExpected            = new User();
         $userExpected->id        = "1";
-        $userExpected->email     = "juacagiri@gmail.com";
+        $userExpected->username     = "juacagiri";
         $userExpected->full_name = "peranito";
 
         $this->assertEquals([
@@ -159,7 +159,7 @@ class AuthFake
     {
         $user            = new User();
         $user->id        = "1";
-        $user->email     = "juacagiri@gmail.com";
+        $user->username  = "juacagiri";
         $user->full_name = "peranito";
 
         return $user;

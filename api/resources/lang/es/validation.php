@@ -41,7 +41,7 @@ return [
     'digits_between'       => 'The :attribute must be between :min and :max digits.',
     'dimensions'           => 'The :attribute has invalid image dimensions.',
     'distinct'             => 'The :attribute field has a duplicate value.',
-    'email'                => 'The :attribute must be a valid email address.',
+    'email'                => 'El :attribute tiene que ser una dirección de correo válido',
     'ends_with'            => 'The :attribute must end with one of the following: :values.',
     'exists'               => 'The selected :attribute is invalid.',
     'file'                 => 'The :attribute must be a file.',
@@ -155,6 +155,8 @@ return [
 
     'attributes'           => [
         "email"    => "correo",
+        "username" => "usuario",
+        "full_name"=> "nombre completo",
         "password" => "contraseña",
     ],
 
