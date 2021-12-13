@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 // this is a controller for save logs and send to slack channel
@@ -115,13 +116,18 @@ class LoggerController extends Controller
 
     private static function getUserInformation()
     {
-        // TODO: when autentication is done change this for get real information
+        if (Auth::user() == null) {
+            return [
+                "user email" => "unknow",
+                "user name"  => "unknow",
+                "user role"  => "unknow",
+            ];
+        }
 
         return [
-            "buyer"       => "the buyer name",
-            "buyer email" => "the buyer email",
-            "user email"  => "the user email",
-            "user role"   => "the user role",
+            "user email" => Auth::user()->email,
+            "user name"  => Auth::user()->username,
+            "user role"  => Auth::user()->role->name,
         ];
     }
 

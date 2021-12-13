@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\MailException;
+use Throwable;
+
 class EmailNotifier implements Notifier
 {
     private $subject;
@@ -18,7 +21,22 @@ class EmailNotifier implements Notifier
     public function notify(array $listeners)
     {
         foreach ($listeners as $listen) {
-            $this->mailController->sendEmail($listen->email, $this->subject, $this->message);
+            try {
+                $this->mailController->sendEmail($listen->email, $this->subject, $this->message);
+            } catch (MailException $e) {
+                LoggerController::write(LoggerController::ERROR, 'send email failed', [
+                    "error"   => $e->getMessage(),
+                    "email"   => $listen->email,
+                    "subject" => $this->subject,
+                ], LoggerController::TOSLACKANDFILE);
+            } catch (Throwable $th) {
+                LoggerController::write(LoggerController::CRITICAL, 'send email failed', [
+                    "error"   => $th->getMessage(),
+                    "email"   => $listen->email,
+                    "subject" => $this->subject,
+                ], LoggerController::TOSLACKANDFILE);
+            }
+
         }
     }
 
