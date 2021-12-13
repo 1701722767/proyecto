@@ -58,8 +58,9 @@ class UserController extends Controller
 
         $notifier = new EmailNotifier('Registro Exitoso',$mensaje);
         $notifiermanager = new NotificationManager($notifier,$this->userModel);
-        $notifiermanager->notify();
         $this->userModel->save();
+        $notifiermanager->notify();
+        
         
         return $this->userModel;
     }
