@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Notifications;
+use App\Http\Controllers\MailController;
+
 
 use App\Exceptions\MailException;
+use App\Http\Controllers\LoggerController;
 use Throwable;
 
 class EmailNotifier implements Notifier
