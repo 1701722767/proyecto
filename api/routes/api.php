@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,12 @@ Route::group([
     Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
     Route::post('refresh', [\App\Http\Controllers\AuthController::class, 'refresh'])->name('refresh');
     Route::get('me', [\App\Http\Controllers\AuthController::class, 'me'])->name('me');
+});
+Route::group([
+    'middleware' => 'api',
+    'prefix'     => 'v1/users',
+
+], function ($router) {
+    Route::post('', [UserController::class, 'create'])
+        ->name('create_user');
 });
