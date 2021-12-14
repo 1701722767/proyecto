@@ -17,10 +17,11 @@ class CreateSitesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->unsignedBigInteger('user_id')-> nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('category_id');
+            $table->enum("status", ["accepted", "rejected", "pending"])->default("pending");
             $table->foreign('category_id')->references('id')
-                ->on('categories') 
+                ->on('categories')
                 ->onDelete('cascade');
             $table->foreign('user_id')->references('id')
                 ->on('users')

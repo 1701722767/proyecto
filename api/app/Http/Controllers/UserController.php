@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Exceptions\MailException;
 use App\Exceptions\UserException;
 use App\Http\Controllers\Notifications\EmailNotifier;
 use App\Http\Controllers\Notifications\NotificationManager;
 use App\Models\Response;
 use App\Models\User;
-use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -28,14 +25,13 @@ class UserController extends Controller
         $this->emailController = ($emailController == null) ? new MailController() : $emailController;
     }
 
-
     public function store(Request $request)
     {
         $validation = Validator::make($request->all(), [
             'full_name' => 'required',
             'role_id'   => 'required|exists:roles,id',
-            'email'     => 'unique:users|regex:/^.+@.+$/i',
-            'username'  => 'required',
+            'email'     => 'regex:/^.+@.+$/i',
+            'username'  => 'unique:users|required',
         ]);
 
         if ($validation->fails()) {
@@ -50,18 +46,13 @@ class UserController extends Controller
         $this->userModel->role_id   = $request->role_id;
         $this->userModel->username  = $request->username;
 
-        
+        $message = 'Felicitaciones ' . $this->userModel->full_name . ' su usuario y contraseña son, Usuario ' . $this->userModel->username . ' y su contraseña: ' . $randomPass;
 
-
-        $mensaje = 'Felicitaciones su usuario y contraseña son, Usuario ' . $this->userModel->username . ' y su contraseña: ' . $randomPass; 
-
-
-        $notifier = new EmailNotifier('Registro Exitoso',$mensaje);
-        $notifiermanager = new NotificationManager($notifier,$this->userModel);
+        $notifier        = new EmailNotifier('Registro Exitoso', $message);
+        $notifiermanager = new NotificationManager($notifier, $this->userModel);
         $this->userModel->save();
         $notifiermanager->notify();
-        
-        
+
         return $this->userModel;
     }
 
