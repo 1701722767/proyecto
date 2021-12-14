@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiteController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ Route::group([
     Route::post('refresh', [\App\Http\Controllers\AuthController::class, 'refresh'])->name('refresh');
     Route::get('me', [\App\Http\Controllers\AuthController::class, 'me'])->name('me');
 });
+
 Route::group([
     'middleware' => 'api',
     'prefix'     => 'v1/users',
@@ -31,4 +33,13 @@ Route::group([
 ], function ($router) {
     Route::post('', [UserController::class, 'create'])
         ->name('create_user');
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix'     => 'v1/sites',
+
+], function ($router) {
+    Route::post('', [SiteController::class, 'createSiteAndUser'])
+        ->name('create_site');
 });
