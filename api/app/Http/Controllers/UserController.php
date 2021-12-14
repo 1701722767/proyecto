@@ -61,7 +61,9 @@ class UserController extends Controller
         try {
             $response = new Response();
 
-            $newUser           = $this->store($request);
+            $newUser           = $this->store($request->merge([
+                'role_id' => 3,
+            ]));
             $response->error   = false;
             $response->message = "Usuario creado correctamente.";
             $response->data    = $newUser;
